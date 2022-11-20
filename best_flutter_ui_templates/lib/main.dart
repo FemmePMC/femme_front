@@ -184,6 +184,7 @@ class MapView extends StatefulWidget {
 class _MapViewState extends State<MapView> {
   CameraPosition _initialLocation = CameraPosition(target: LatLng(0.0, 0.0));
   late GoogleMapController mapController;
+  MapType _currentMapType = MapType.normal;
 
   late Position _currentPosition;
   String _currentAddress = '';
@@ -493,6 +494,14 @@ class _MapViewState extends State<MapView> {
     polylines[id] = polyline;
   }
 
+    _onMapTypeButtonPressed() {
+    setState(() {
+      _currentMapType = _currentMapType == MapType.normal
+          ? MapType.satellite
+          : MapType.normal;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -516,13 +525,71 @@ class _MapViewState extends State<MapView> {
               initialCameraPosition: _initialLocation,
               myLocationEnabled: true,
               myLocationButtonEnabled: false,
-              mapType: MapType.normal,
+              mapType: _currentMapType,
               zoomGesturesEnabled: true,
               zoomControlsEnabled: false,
               polylines: Set<Polyline>.of(polylines.values),
               onMapCreated: (GoogleMapController controller) {
                 mapController = controller;
               },
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10.0, bottom: 10.0),
+                      child: ClipOval(
+                        child: Material(
+                          color: Colors.orange.shade100, // button color
+                          child: InkWell(
+                            splashColor: Colors.orange, // inkwell color
+                            child: SizedBox(
+                              width: 56,
+                              height: 56,
+                              child: Icon(Icons.map),
+                            ),
+                            onTap: () {
+                              _onMapTypeButtonPressed();
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10.0, bottom: 10.0),
+                      child: ClipOval(
+                        child: Material(
+                          color: Colors.orange.shade100, // button color
+                          child: InkWell(
+                            splashColor: Colors.orange, // inkwell color
+                            child: SizedBox(
+                              width: 56,
+                              height: 56,
+                              child: Icon(Icons.my_location),
+                            ),
+                            onTap: () {
+                              mapController.animateCamera(
+                                CameraUpdate.newCameraPosition(
+                                  CameraPosition(
+                                    target: LatLng(
+                                      _currentPosition.latitude,
+                                      _currentPosition.longitude,
+                                    ),
+                                    zoom: 18.0,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
             // Show zoom buttons
             SafeArea(
@@ -577,18 +644,18 @@ class _MapViewState extends State<MapView> {
             // Show current location button
             SafeArea(
               child: Align(
-                alignment: Alignment.bottomLeft,
+                alignment: Alignment.bottomRight,
                 child: Padding(
                   padding: const EdgeInsets.only(right: 10.0, bottom: 10.0),
                   child: ClipOval(
                     child: Material(
-                      color: Colors.orange.shade100, // button color
+                      color: Color.fromARGB(255, 250, 58, 0), // button color
                       child: InkWell(
-                        splashColor: Colors.orange, // inkwell color
+                        splashColor: Color.fromARGB(255, 131, 79, 2), // inkwell color
                         child: SizedBox(
                           width: 56,
                           height: 56,
-                          child: Icon(Icons.my_location),
+                          child: Icon(Icons.crisis_alert_sharp),
                         ),
                         onTap: () {
                           mapController.animateCamera(
