@@ -6,9 +6,13 @@
          additional functionality it is fine to subclass or reimplement
          FlutterApplication and put your custom class here. -->
     <application
-        android:label="Best Flutter UI Templates"
+        android:label="Femme"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyCzGgpnMFidn4WEBZdCWZ2zScqJ7Exby3E"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
