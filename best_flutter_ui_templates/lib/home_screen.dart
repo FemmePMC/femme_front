@@ -207,6 +207,15 @@ class MapView extends StatefulWidget {
 
 class _MapViewState extends State<MapView> {
   Completer<GoogleMapController> _controller = Completer();
+  late GoogleMapController mapController;
+  late Position _currentPosition;
+
+  String _currentAddress = '';
+  String _startAddress = '';
+
+  final startAddressController = TextEditingController();
+
+  CameraPosition _initialLocation = CameraPosition(target: LatLng(0.0, 0.0));
   static const LatLng _center = const LatLng(45.521563, -122.677433);
   final Set<Marker> _markers = {};
   LatLng _lastMapPosition = _center;
@@ -243,19 +252,67 @@ class _MapViewState extends State<MapView> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+  }
+
+    // Method for retrieving the current location
+  _getCurrentLocation() async {
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+        .then((Position position) async {
+      setState(() {
+        _currentPosition = position;
+        print('CURRENT POS: $_currentPosition');
+        mapController.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+              target: LatLng(position.latitude, position.longitude),
+              zoom: 18.0,
+            ),
+          ),
+        );
+      });
+      await _getAddress();
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+    // Method for retrieving the address
+  _getAddress() async {
+    try {
+      List<Placemark> p = await placemarkFromCoordinates(
+          _currentPosition.latitude, _currentPosition.longitude);
+
+      Placemark place = p[0];
+
+      setState(() {
+        _currentAddress =
+            "${place.name}, ${place.locality}, ${place.postalCode}, ${place.country}";
+        startAddressController.text = _currentAddress;
+        _startAddress = _currentAddress;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
         children: <Widget>[
           GoogleMap(
             onMapCreated: _onMapCreated,
-            initialCameraPosition: CameraPosition(
-              target: _center,
-              zoom: 11.0,
-            ),
+            initialCameraPosition: _initialLocation,
             mapType: _currentMapType,
             markers: _markers,
             onCameraMove: _onCameraMove,
+            myLocationEnabled: false,
+            myLocationButtonEnabled: true,
+            zoomGesturesEnabled: true,
+            zoomControlsEnabled: false,
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
