@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'package:best_flutter_ui_templates/app_theme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:best_flutter_ui_templates/pruebas/widget/navigation_drawer_widget.dart';
@@ -19,12 +22,27 @@ class MyApp extends StatelessWidget {
   static final String title = 'Navigation Drawer';
 
   @override
-  Widget build(BuildContext context) => MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: title,
-        theme: ThemeData(primarySwatch: Colors.blue),
-        home: MainPage(),
-      );
+  Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    statusBarIconBrightness: Brightness.dark,
+    statusBarBrightness:
+        !kIsWeb && Platform.isAndroid ? Brightness.dark : Brightness.light,
+    systemNavigationBarColor: Colors.white,
+    systemNavigationBarDividerColor: Colors.transparent,
+    systemNavigationBarIconBrightness: Brightness.dark,
+    ));
+    return MaterialApp(
+      title: 'Femme',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        textTheme: AppTheme.textTheme,
+        platform: TargetPlatform.iOS,
+      ),
+      home: MainPage(),
+    );
+  } 
 }
 
 class MainPage extends StatefulWidget {
@@ -33,23 +51,127 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+
+  Future<bool> getData() async {
+    await Future<dynamic>.delayed(const Duration(milliseconds: 0));
+    return true;
+  }
+
   @override
-  Widget build(BuildContext context) => Scaffold(
-        drawer: NavigationDrawerWidget(),
-        // endDrawer: NavigationDrawerWidget(),
-        appBar: AppBar(
-          title: Text(MyApp.title),
-        ),
-        body: Builder(
-          builder: (context) => Container(
-            alignment: Alignment.center,
-            padding: EdgeInsets.symmetric(horizontal: 32),
-            child: MapView(
+  Widget build(BuildContext context) {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
+    return Scaffold(
+      drawer: NavigationDrawerWidget(),
+      backgroundColor:
+          isLightMode == true ? Color.fromARGB(255, 158, 112, 162) : Color.fromARGB(255, 158, 112, 162),
+      body: FutureBuilder<bool>(
+        future: getData(),
+        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+          if (!snapshot.hasData) {
+            return const SizedBox();
+          } else {
+            return Padding(   
+              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  appBar(context),
+                  Expanded(
+                    child: FutureBuilder<bool>(
+                      future: getData(),
+                      builder:
+                          (BuildContext context, AsyncSnapshot<bool> snapshot) {
+                        if (!snapshot.hasData) {
+                          return const SizedBox();
+                        } else {
+                          return MapView();
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+        },
+      ),
+    );
+  }
+
+  Widget appBar(BuildContext innerContext) {
+    var brightness = MediaQuery.of(context).platformBrightness;
+    bool isLightMode = brightness == Brightness.light;
+    return SizedBox(
+      height: AppBar().preferredSize.height,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(top: 8, left: 8),
+            child: Container(
+              width: AppBar().preferredSize.height - 8,
+              height: AppBar().preferredSize.height - 8,
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius:
+                      const BorderRadius.all(Radius.circular(32.0)),
+                  onTap: () {
+                    Scaffold.of(innerContext).openDrawer();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.menu_rounded,
+                      color: isLightMode == true ? Colors.white : Colors.white,
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
-        ),
-      );
+          Expanded(
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text(
+                  'Femme',
+                  style: TextStyle(
+                    fontSize: 22,
+                    color: isLightMode ? AppTheme.darkText : AppTheme.white,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8, right: 8),
+            child: Container(
+              width: AppBar().preferredSize.height - 8,
+              height: AppBar().preferredSize.height - 8,
+              color: isLightMode ? Color.fromARGB(255, 158, 112, 162) : AppTheme.nearlyBlack,
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  borderRadius:
+                      BorderRadius.circular(AppBar().preferredSize.height),
+                  child: Icon(
+                    Icons.search,
+                    color: isLightMode ? Color.fromARGB(255, 158, 112, 162) : Color.fromARGB(255, 158, 112, 162),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
+
 
 class MapView extends StatefulWidget {
   @override
