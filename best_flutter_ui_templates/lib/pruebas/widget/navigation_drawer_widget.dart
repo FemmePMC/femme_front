@@ -13,7 +13,7 @@ class NavigationDrawerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: Material(
-        color: Color.fromRGBO(50, 75, 205, 1),
+        color: Color.fromARGB(255, 158, 112, 162),
         child: FutureBuilder<Map<String, dynamic>>(
           future: userService.getUser(),
           builder: (BuildContext context, snapshot) {
@@ -21,65 +21,52 @@ class NavigationDrawerWidget extends StatelessWidget {
               return ListView(
                 children: <Widget>[
                   buildHeader(
-                  urlImage: snapshot.data!['photo'],
-                  name: snapshot.data!['name'],
-                  email: snapshot.data!['email'],
-                  onClicked: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => UserPage(
-                      name: snapshot.data!['name'],
-                      urlImage: snapshot.data!['photo'],
+                    urlImage: snapshot.data!['photo'],
+                    name: snapshot.data!['name'],
+                    email: snapshot.data!['email'],
+                    onClicked: () =>
+                        Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => UserPage(
+                        name: snapshot.data!['name'],
+                        urlImage: snapshot.data!['photo'],
+                      ),
+                    )),
+                  ),
+                  Container(
+                    padding: padding,
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 24),
+                        Divider(color: Colors.white70),
+                        const SizedBox(height: 24),
+                        buildMenuItem(
+                          text: 'Contactos',
+                          icon: Icons.people,
+                          onClicked: () => selectedItem(context, 0),
+                        ),
+                        const SizedBox(height: 16),
+                        buildMenuItem(
+                          text: 'Donar',
+                          icon: Icons.favorite_sharp,
+                          onClicked: () => selectedItem(context, 1),
+                        ),
+                        const SizedBox(height: 16),
+                        buildMenuItem(
+                          text: 'Calificanos',
+                          icon: Icons.star,
+                          onClicked: () => selectedItem(context, 2),
+                        ),
+                        const SizedBox(height: 16),
+                        buildMenuItem(
+                          text: 'Sobre Nosotros',
+                          icon: Icons.info,
+                          onClicked: () => selectedItem(context, 3),
+                        ),
+                      ],
                     ),
-                  )),
-              ),
-              Container(
-                padding: padding,
-                child: Column(
-                  children: [
-                    const SizedBox(height: 12),
-                    buildSearchField(),
-                    const SizedBox(height: 24),
-                    buildMenuItem(
-                      text: 'People',
-                      icon: Icons.people,
-                      onClicked: () => selectedItem(context, 0),
-                    ),
-                    const SizedBox(height: 16),
-                    buildMenuItem(
-                      text: 'Favourites',
-                      icon: Icons.favorite_border,
-                      onClicked: () => selectedItem(context, 1),
-                    ),
-                    const SizedBox(height: 16),
-                    buildMenuItem(
-                      text: 'Workflow',
-                      icon: Icons.workspaces_outline,
-                      onClicked: () => selectedItem(context, 2),
-                    ),
-                    const SizedBox(height: 16),
-                    buildMenuItem(
-                      text: 'Updates',
-                      icon: Icons.update,
-                      onClicked: () => selectedItem(context, 3),
-                    ),
-                    const SizedBox(height: 24),
-                    Divider(color: Colors.white70),
-                    const SizedBox(height: 24),
-                    buildMenuItem(
-                      text: 'Plugins',
-                      icon: Icons.account_tree_outlined,
-                      onClicked: () => selectedItem(context, 4),
-                    ),
-                    const SizedBox(height: 16),
-                    buildMenuItem(
-                      text: 'Notifications',
-                      icon: Icons.notifications_outlined,
-                      onClicked: () => selectedItem(context, 5),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-         );
+                  ),
+                ],
+              );
             } else {
               return Center(
                 child: CircularProgressIndicator(),
@@ -106,10 +93,11 @@ class NavigationDrawerWidget extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CircleAvatar(radius: 30, backgroundImage: NetworkImage(urlImage)),
+                  CircleAvatar(
+                      radius: 40, backgroundImage: NetworkImage(urlImage)),
                   Text(
                     name,
-                    style: TextStyle(fontSize: 20, color: Colors.white),
+                    style: TextStyle(fontSize: 25, color: Colors.white),
                   ),
                   const SizedBox(height: 4),
                   Text(
@@ -118,12 +106,7 @@ class NavigationDrawerWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              Spacer(),
-              CircleAvatar(
-                radius: 24,
-                backgroundColor: Color.fromRGBO(30, 60, 168, 1),
-                child: Icon(Icons.add_comment_outlined, color: Colors.white),
-              )
+              Spacer()
             ],
           ),
         ),

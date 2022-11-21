@@ -17,7 +17,7 @@ Future main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
- 
+
   runApp(MyApp());
 }
 
@@ -27,13 +27,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.dark,
-    statusBarBrightness:
-        !kIsWeb && Platform.isAndroid ? Brightness.dark : Brightness.light,
-    systemNavigationBarColor: Colors.white,
-    systemNavigationBarDividerColor: Colors.transparent,
-    systemNavigationBarIconBrightness: Brightness.dark,
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness:
+          !kIsWeb && Platform.isAndroid ? Brightness.dark : Brightness.light,
+      systemNavigationBarColor: Colors.white,
+      systemNavigationBarDividerColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.dark,
     ));
     return MaterialApp(
       title: 'Femme',
@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
       ),
       home: MainPage(),
     );
-  } 
+  }
 }
 
 class MainPage extends StatefulWidget {
@@ -54,7 +54,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-
   Future<bool> getData() async {
     await Future<dynamic>.delayed(const Duration(milliseconds: 0));
     return true;
@@ -66,15 +65,16 @@ class _MainPageState extends State<MainPage> {
     bool isLightMode = brightness == Brightness.light;
     return Scaffold(
       drawer: NavigationDrawerWidget(),
-      backgroundColor:
-          isLightMode == true ? Color.fromARGB(255, 158, 112, 162) : Color.fromARGB(255, 158, 112, 162),
+      backgroundColor: isLightMode == true
+          ? Color.fromARGB(255, 158, 112, 162)
+          : Color.fromARGB(255, 158, 112, 162),
       body: FutureBuilder<bool>(
         future: getData(),
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
           if (!snapshot.hasData) {
             return const SizedBox();
           } else {
-            return Padding(   
+            return Padding(
               padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -119,8 +119,7 @@ class _MainPageState extends State<MainPage> {
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  borderRadius:
-                      const BorderRadius.all(Radius.circular(32.0)),
+                  borderRadius: const BorderRadius.all(Radius.circular(32.0)),
                   onTap: () {
                     Scaffold.of(innerContext).openDrawer();
                   },
@@ -143,7 +142,7 @@ class _MainPageState extends State<MainPage> {
                   'Femme',
                   style: TextStyle(
                     fontSize: 22,
-                    color: isLightMode ? AppTheme.darkText : AppTheme.white,
+                    color: AppTheme.white,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -155,7 +154,9 @@ class _MainPageState extends State<MainPage> {
             child: Container(
               width: AppBar().preferredSize.height - 8,
               height: AppBar().preferredSize.height - 8,
-              color: isLightMode ? Color.fromARGB(255, 158, 112, 162) : AppTheme.nearlyBlack,
+              color: isLightMode
+                  ? Color.fromARGB(255, 158, 112, 162)
+                  : AppTheme.nearlyBlack,
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
@@ -163,7 +164,9 @@ class _MainPageState extends State<MainPage> {
                       BorderRadius.circular(AppBar().preferredSize.height),
                   child: Icon(
                     Icons.search,
-                    color: isLightMode ? Color.fromARGB(255, 158, 112, 162) : Color.fromARGB(255, 158, 112, 162),
+                    color: isLightMode
+                        ? Color.fromARGB(255, 158, 112, 162)
+                        : Color.fromARGB(255, 158, 112, 162),
                   ),
                 ),
               ),
@@ -174,7 +177,6 @@ class _MainPageState extends State<MainPage> {
     );
   }
 }
-
 
 class MapView extends StatefulWidget {
   @override
@@ -258,11 +260,11 @@ class _MapViewState extends State<MapView> {
 
   // Method for retrieving the current location
   _getCurrentLocation() async {
-        // Test if location services are enabled.
+    // Test if location services are enabled.
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       // Location services are not enabled don't continue
-      // accessing the position and request users of the 
+      // accessing the position and request users of the
       // App to enable the location services.
       return Future.error('Location services are disabled.');
     }
@@ -271,14 +273,15 @@ class _MapViewState extends State<MapView> {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.deniedForever) {
-        // Permissions are denied forever, handle appropriately. 
-        return Future.error(Exception('Location permissions are permanently denied.'));
-      } 
+        // Permissions are denied forever, handle appropriately.
+        return Future.error(
+            Exception('Location permissions are permanently denied.'));
+      }
 
       if (permission == LocationPermission.denied) {
         // Permissions are denied, next time you could try
         // requesting permissions again (this is also where
-        // Android's shouldShowRequestPermissionRationale 
+        // Android's shouldShowRequestPermissionRationale
         // returned true. According to Android guidelines
         // your App should show an explanatory UI now.
         return Future.error(Exception('Location permissions are denied.'));
@@ -494,7 +497,7 @@ class _MapViewState extends State<MapView> {
     polylines[id] = polyline;
   }
 
-    _onMapTypeButtonPressed() {
+  _onMapTypeButtonPressed() {
     setState(() {
       _currentMapType = _currentMapType == MapType.normal
           ? MapType.satellite
@@ -651,7 +654,8 @@ class _MapViewState extends State<MapView> {
                     child: Material(
                       color: Color.fromARGB(255, 250, 58, 0), // button color
                       child: InkWell(
-                        splashColor: Color.fromARGB(255, 131, 79, 2), // inkwell color
+                        splashColor:
+                            Color.fromARGB(255, 131, 79, 2), // inkwell color
                         child: SizedBox(
                           width: 56,
                           height: 56,
