@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class User {
-  final String base_url = "http://10.0.2.2:8000";
+  final String base_url = "http://daniagui.pythonanywhere.com";
 
   Future<Map<String, dynamic>> getUser() async {
     try {
