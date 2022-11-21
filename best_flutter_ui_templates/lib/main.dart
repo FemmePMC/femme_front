@@ -17,7 +17,7 @@ Future main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-
+ 
   runApp(MyApp());
 }
 
