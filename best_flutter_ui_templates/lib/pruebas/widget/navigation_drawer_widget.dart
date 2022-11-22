@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 import 'package:best_flutter_ui_templates/back/manager.dart';
+import 'package:best_flutter_ui_templates/main.dart';
+import 'package:best_flutter_ui_templates/pruebas/page/notification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:best_flutter_ui_templates/pruebas/page/favourites_page.dart';
 import 'package:best_flutter_ui_templates/pruebas/page/people_page.dart';
@@ -52,17 +54,22 @@ class NavigationDrawerWidget extends StatelessWidget {
                           icon: Icons.connect_without_contact,
                           onClicked: launchLanding,
                         ),
+                        buildMenuItem(
+                          text: 'Notificaciones',
+                          icon: Icons.circle_notifications_rounded,
+                          onClicked: () => selectedItem(context, 1),
+                        ),
                         const SizedBox(height: 16),
                         buildMenuItem(
                           text: 'Donar',
                           icon: Icons.favorite_sharp,
-                          onClicked: () => selectedItem(context, 1),
+                          onClicked: () => selectedItem(context, 2),
                         ),
                         const SizedBox(height: 16),
                         buildMenuItem(
                           text: 'Calificanos',
                           icon: Icons.star,
-                          onClicked: () => selectedItem(context, 2),
+                          onClicked: () => selectedItem(context, 3),
                         ),
                         const SizedBox(height: 16),
                         buildMenuItem(
@@ -171,10 +178,20 @@ class NavigationDrawerWidget extends StatelessWidget {
         break;
       case 1:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => FavouritesPage(),
+          builder: (context) => NotificationPage(),
+        ));
+        break;
+      case 2:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => MainPage(),
         ));
         break;
       case 3:
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => MainPage(),
+        ));
+        break;
+      case 4:
         launchLanding();
         break;
     }
