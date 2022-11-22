@@ -30,8 +30,8 @@ class User {
 
   Future<List> getUsers() async {
     try {
-      final response = await http.get(
-          Uri.parse(base_url + "/user/" + this.id + "/emergency_contacts"));
+      final response = await http
+          .get(Uri.parse(base_url + this.id + "/emergency_contacts/"));
       if (response.statusCode == 200) {
         return json.decode(response.body);
       } else {
@@ -43,38 +43,15 @@ class User {
     }
   }
 
-  createAlert() async {
-    final uri = Uri.parse(base_url + "/user/create/");
-    final headers = {'Content-Type': 'application/json'};
-    Map<String, dynamic> body = {
-      'message': "Estoy en peligro ayuda",
-      'user_id': 1
-    };
-    String jsonBody = json.encode(body);
-    final encoding = Encoding.getByName('utf-8');
-
-    http.Response response = await http.post(
-      uri,
-      headers: headers,
-      body: jsonBody,
-      encoding: encoding,
-    );
-
-    int statusCode = response.statusCode;
-    String responseBody = response.body;
-    print(statusCode);
-    print(responseBody);
-  }
-
   void setLatitude(String latitude) async {
     this.latitude = latitude;
-    final uri = Uri.parse(base_url + "/user/" + this.id + "/location/patch/");
+    final uri = Uri.parse(base_url + this.id + "/latitude/patch/");
     final headers = {'Content-Type': 'application/json'};
     Map<String, dynamic> body = {'latitude': this.latitude};
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
 
-    http.Response response = await http.post(
+    http.Response response = await http.patch(
       uri,
       headers: headers,
       body: jsonBody,
@@ -85,13 +62,13 @@ class User {
 
   void setLongitude(String longitude) async {
     this.longitude = longitude;
-    final uri = Uri.parse(base_url + "/user/" + this.id + "/location/patch/");
+    final uri = Uri.parse(base_url + this.id + "/longitude/patch/");
     final headers = {'Content-Type': 'application/json'};
     Map<String, dynamic> body = {'longitude': this.longitude};
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
 
-    http.Response response = await http.post(
+    http.Response response = await http.patch(
       uri,
       headers: headers,
       body: jsonBody,
