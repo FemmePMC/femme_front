@@ -1,7 +1,5 @@
 // ignore_for_file: must_be_immutable
 import 'package:best_flutter_ui_templates/back/manager.dart';
-import 'package:best_flutter_ui_templates/main.dart';
-import 'package:best_flutter_ui_templates/pruebas/page/notification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:best_flutter_ui_templates/pruebas/page/favourites_page.dart';
 import 'package:best_flutter_ui_templates/pruebas/page/people_page.dart';
@@ -11,7 +9,7 @@ import 'package:best_flutter_ui_templates/back/alerts.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
   final padding = EdgeInsets.symmetric(horizontal: 20);
-  User userService = User();
+  User userService = User("1", "0", "0");
 
   @override
   Widget build(BuildContext context) {
@@ -50,27 +48,21 @@ class NavigationDrawerWidget extends StatelessWidget {
                         ),
                         const SizedBox(height: 16),
                         buildMenuItem(
-                          text: 'Notificaciones',
-                          icon: Icons.circle_notifications_rounded,
-                          onClicked: () => selectedItem(context, 1),
-                        ),
-                        const SizedBox(height: 16),
-                        buildMenuItem(
                           text: 'Donar',
                           icon: Icons.favorite_sharp,
-                          onClicked: () => selectedItem(context, 2),
+                          onClicked: () => selectedItem(context, 1),
                         ),
                         const SizedBox(height: 16),
                         buildMenuItem(
                           text: 'Calificanos',
                           icon: Icons.star,
-                          onClicked: () => selectedItem(context, 3),
+                          onClicked: () => selectedItem(context, 2),
                         ),
                         const SizedBox(height: 16),
                         buildMenuItem(
                           text: 'Sobre Nosotros',
                           icon: Icons.info,
-                          onClicked: () => selectedItem(context, 4),
+                          onClicked: () => selectedItem(context, 3),
                         ),
                       ],
                     ),
@@ -173,20 +165,10 @@ class NavigationDrawerWidget extends StatelessWidget {
         break;
       case 1:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => NotificationPage(),
-        ));
-        break;
-      case 2:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => MainPage(),
+          builder: (context) => FavouritesPage(),
         ));
         break;
       case 3:
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => MainPage(),
-        ));
-        break;
-      case 4:
         launchLanding();
         break;
     }
