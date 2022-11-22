@@ -6,7 +6,7 @@ class Alert {
   final String base_url = "http://daniagui.pythonanywhere.com";
 
   createAlert() async {
-    final uri = Uri.parse(base_url + "/alert/create");
+    final uri = Uri.parse(base_url + "/alert/create/");
     final headers = {'Content-Type': 'application/json'};
     Map<String, dynamic> body = {
       'message': "Estoy en peligro ayuda",

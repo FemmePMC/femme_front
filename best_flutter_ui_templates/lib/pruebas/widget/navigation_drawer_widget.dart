@@ -5,6 +5,7 @@ import 'package:best_flutter_ui_templates/pruebas/page/favourites_page.dart';
 import 'package:best_flutter_ui_templates/pruebas/page/people_page.dart';
 import 'package:best_flutter_ui_templates/pruebas/page/user_page.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:best_flutter_ui_templates/back/alerts.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
   final padding = EdgeInsets.symmetric(horizontal: 20);

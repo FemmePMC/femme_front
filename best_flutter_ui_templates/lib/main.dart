@@ -1,6 +1,8 @@
+import 'dart:developer';
 import 'dart:io';
 import 'dart:math';
 import 'package:best_flutter_ui_templates/app_theme.dart';
+import 'package:best_flutter_ui_templates/back/alerts.dart';
 import 'package:best_flutter_ui_templates/secrets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -184,6 +186,7 @@ class MapView extends StatefulWidget {
 }
 
 class _MapViewState extends State<MapView> {
+  Alert userAlert = Alert();
   CameraPosition _initialLocation = CameraPosition(target: LatLng(0.0, 0.0));
   late GoogleMapController mapController;
   MapType _currentMapType = MapType.normal;
@@ -666,17 +669,7 @@ class _MapViewState extends State<MapView> {
                           child: Icon(Icons.crisis_alert_sharp),
                         ),
                         onTap: () {
-                          mapController.animateCamera(
-                            CameraUpdate.newCameraPosition(
-                              CameraPosition(
-                                target: LatLng(
-                                  _currentPosition.latitude,
-                                  _currentPosition.longitude,
-                                ),
-                                zoom: 18.0,
-                              ),
-                            ),
-                          );
+                          userAlert.createAlert();
                         },
                       ),
                     ),
