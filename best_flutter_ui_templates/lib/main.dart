@@ -603,9 +603,11 @@ class _MapViewState extends State<MapView> {
                   children: <Widget>[
                     ClipOval(
                       child: Material(
-                        color: Colors.blue.shade100, // button color
+                        color:
+                            Color.fromARGB(255, 247, 215, 250), // button color
                         child: InkWell(
-                          splashColor: Colors.blue, // inkwell color
+                          splashColor: Color.fromARGB(
+                              255, 158, 112, 162), // inkwell color
                           child: SizedBox(
                             width: 50,
                             height: 50,
@@ -622,9 +624,11 @@ class _MapViewState extends State<MapView> {
                     SizedBox(height: 20),
                     ClipOval(
                       child: Material(
-                        color: Colors.blue.shade100, // button color
+                        color:
+                            Color.fromARGB(255, 247, 215, 250), // button color
                         child: InkWell(
-                          splashColor: Colors.blue, // inkwell color
+                          splashColor: Color.fromARGB(
+                              255, 158, 112, 162), // inkwell color
                           child: SizedBox(
                             width: 50,
                             height: 50,
@@ -657,8 +661,8 @@ class _MapViewState extends State<MapView> {
                         splashColor:
                             Color.fromARGB(255, 131, 79, 2), // inkwell color
                         child: SizedBox(
-                          width: 56,
-                          height: 56,
+                          width: 80,
+                          height: 80,
                           child: Icon(Icons.crisis_alert_sharp),
                         ),
                         onTap: () {

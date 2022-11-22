@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:best_flutter_ui_templates/pruebas/page/favourites_page.dart';
 import 'package:best_flutter_ui_templates/pruebas/page/people_page.dart';
 import 'package:best_flutter_ui_templates/pruebas/page/user_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
   final padding = EdgeInsets.symmetric(horizontal: 20);
@@ -166,6 +167,18 @@ class NavigationDrawerWidget extends StatelessWidget {
           builder: (context) => FavouritesPage(),
         ));
         break;
+      case 3:
+        launchLanding();
+        break;
+    }
+  }
+
+  launchLanding() async {
+    Uri url = Uri.parse('https://cristian26aso.wixsite.com/femme');
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch';
     }
   }
 }
