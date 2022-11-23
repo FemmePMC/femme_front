@@ -22,7 +22,7 @@ Future main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  User user = User("1", "0", "0");
+  User user = User("3", "0", "0");
 
   runApp(MyApp(user));
 }
@@ -102,7 +102,7 @@ class _MainPageState extends State<MainPage> {
                         if (!snapshot.hasData) {
                           return const SizedBox();
                         } else {
-                          return MapView(this.user);
+                          return MapView(this.user, 0, 0);
                         }
                       },
                     ),
@@ -169,7 +169,7 @@ class _MainPageState extends State<MainPage> {
               height: AppBar().preferredSize.height - 8,
               color: isLightMode
                   ? Color.fromARGB(255, 158, 112, 162)
-                  : AppTheme.nearlyBlack,
+                  : Color.fromARGB(255, 158, 112, 162),
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
@@ -193,16 +193,20 @@ class _MainPageState extends State<MainPage> {
 
 class MapView extends StatefulWidget {
   User user;
-  MapView(this.user);
+  double lat;
+  double long;
+  MapView(this.user, this.lat, this.long);
   @override
-  _MapViewState createState() => _MapViewState(this.user);
+  _MapViewState createState() => _MapViewState(this.user, this.lat, this.long);
 }
 
 class _MapViewState extends State<MapView> {
+  double lat;
+  double long;
+  _MapViewState(this.user, this.lat, this.long);
   User user;
   bool repeat = false;
   int alertsNum = 0;
-  _MapViewState(this.user);
   Alert userAlert = Alert();
   CameraPosition _initialLocation = CameraPosition(target: LatLng(0.0, 0.0));
   late GoogleMapController mapController;
@@ -378,6 +382,24 @@ class _MapViewState extends State<MapView> {
     } catch (e) {
       print(e);
     }
+  }
+
+  _createMarker(double lat, double long, String name, String description,
+      int id, BitmapDescriptor icon) {
+    LatLng location = LatLng(lat, long);
+    setState(() {
+      markers.add(
+        Marker(
+          markerId: MarkerId(name),
+          position: location,
+          infoWindow: InfoWindow(
+            title: name,
+            snippet: description,
+          ),
+          icon: icon,
+        ),
+      );
+    });
   }
 
   // Method for calculating the distance between two places
@@ -564,6 +586,7 @@ class _MapViewState extends State<MapView> {
     super.initState();
     _getCurrentLocation();
     _checkAlerts();
+    getmarkers();
     if (repeat) {
       _showDialog();
     }
@@ -604,9 +627,10 @@ class _MapViewState extends State<MapView> {
                       padding: const EdgeInsets.only(right: 10.0, bottom: 10.0),
                       child: ClipOval(
                         child: Material(
-                          color: Colors.orange.shade100, // button color
+                          color: Color(0xffdbbbca), // button color
                           child: InkWell(
-                            splashColor: Colors.orange, // inkwell color
+                            splashColor: Color.fromARGB(
+                                255, 158, 112, 162), // inkwell color
                             child: SizedBox(
                               width: 56,
                               height: 56,
@@ -623,9 +647,10 @@ class _MapViewState extends State<MapView> {
                       padding: const EdgeInsets.only(right: 10.0, bottom: 10.0),
                       child: ClipOval(
                         child: Material(
-                          color: Colors.orange.shade100, // button color
+                          color: Color(0xffdbbbca), // button color
                           child: InkWell(
-                            splashColor: Colors.orange, // inkwell color
+                            splashColor: Color.fromARGB(
+                                255, 158, 112, 162), // inkwell color
                             child: SizedBox(
                               width: 56,
                               height: 56,
@@ -737,5 +762,29 @@ class _MapViewState extends State<MapView> {
         ),
       ),
     );
+  }
+
+  Future<Set<Marker>> getmarkers() async {
+    List emergencyContacts = await user.getUsers();
+    //markers to place on map
+    setState(() {
+      for (int i = 0; i < emergencyContacts.length; i++) {
+        LatLng latLng = LatLng(emergencyContacts[i]['latitude'],
+            emergencyContacts[i]['longitude']);
+        markers.add(Marker(
+          //add first marker
+          markerId: MarkerId(emergencyContacts[i]['name']),
+          position: latLng, //position of marker
+          infoWindow: InfoWindow(
+            //popup info
+            title: 'Emergency Contact',
+            snippet: emergencyContacts[i]['name'],
+          ),
+          icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+        ));
+      }
+    });
+
+    return markers;
   }
 }

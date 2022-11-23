@@ -27,4 +27,18 @@ class Alert {
     print(statusCode);
     print(responseBody);
   }
+
+  Future<String> getAlert(String id) async {
+    try {
+      final response = await http.get(Uri.parse(base_url + "/alert/" + id));
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        throw Exception('Failed to load get user');
+      }
+    } catch (e) {
+      print(e);
+      return Future.error(e);
+    }
+  }
 }
