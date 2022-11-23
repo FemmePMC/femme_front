@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "487414480344",
+    "project_id": "femme-77a5a",
+    "storage_bucket": "femme-77a5a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:487414480344:android:10aa2b9c718531bc9d46ad",
+        "android_client_info": {
+          "package_name": "com.example.best_flutter_ui_templates"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "487414480344-akfa8srju4auj7lvvoss7i6fskn5k0d2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXcuvt-a2NFjfwtESUEWCnPSexM84izmM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "487414480344-akfa8srju4auj7lvvoss7i6fskn5k0d2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
