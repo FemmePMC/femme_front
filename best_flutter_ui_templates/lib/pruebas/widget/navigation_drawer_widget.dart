@@ -48,6 +48,12 @@ class NavigationDrawerWidget extends StatelessWidget {
                         ),
                         const SizedBox(height: 16),
                         buildMenuItem(
+                          text: 'Comunidad',
+                          icon: Icons.connect_without_contact,
+                          onClicked: launchLanding,
+                        ),
+                        const SizedBox(height: 16),
+                        buildMenuItem(
                           text: 'Donar',
                           icon: Icons.favorite_sharp,
                           onClicked: () => selectedItem(context, 1),
