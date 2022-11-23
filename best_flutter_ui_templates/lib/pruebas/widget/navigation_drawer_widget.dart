@@ -50,14 +50,15 @@ class NavigationDrawerWidget extends StatelessWidget {
                         ),
                         const SizedBox(height: 16),
                         buildMenuItem(
-                          text: 'Comunidad',
-                          icon: Icons.connect_without_contact,
-                          onClicked: launchLanding,
-                        ),
-                        buildMenuItem(
                           text: 'Notificaciones',
                           icon: Icons.circle_notifications_rounded,
                           onClicked: () => selectedItem(context, 1),
+                        ),
+                        const SizedBox(height: 16),
+                        buildMenuItem(
+                          text: 'Comunidad',
+                          icon: Icons.connect_without_contact,
+                          onClicked: launchLanding,
                         ),
                         const SizedBox(height: 16),
                         buildMenuItem(
