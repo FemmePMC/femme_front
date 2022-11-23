@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:best_flutter_ui_templates/back/manager.dart';
 
 class PeoplePage extends StatelessWidget {
-  User userService = User("1", "0", "0");
+  User userService;
+  PeoplePage(this.userService);
 
   @override
   Widget build(BuildContext context) => Scaffold(

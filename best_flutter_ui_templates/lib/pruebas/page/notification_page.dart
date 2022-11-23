@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:best_flutter_ui_templates/back/manager.dart';
 
 class NotificationPage extends StatelessWidget {
-  User userService = User("1", "0", "0");
+  User userService;
+  NotificationPage(this.userService);
 
   @override
   Widget build(BuildContext context) => Scaffold(

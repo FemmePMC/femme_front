@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:developer';
 import 'dart:io';
 import 'dart:math';
@@ -20,12 +22,15 @@ Future main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  User user = User("2", "0", "0");
 
-  runApp(MyApp());
+  runApp(MyApp(user));
 }
 
 class MyApp extends StatelessWidget {
   static final String title = 'Navigation Drawer';
+  User user;
+  MyApp(this.user);
 
   @override
   Widget build(BuildContext context) {
@@ -46,17 +51,22 @@ class MyApp extends StatelessWidget {
         textTheme: AppTheme.textTheme,
         platform: TargetPlatform.iOS,
       ),
-      home: MainPage(),
+      home: MainPage(this.user),
     );
   }
 }
 
 class MainPage extends StatefulWidget {
+  User user;
+  MainPage(this.user);
   @override
-  _MainPageState createState() => _MainPageState();
+  _MainPageState createState() => _MainPageState(this.user);
 }
 
 class _MainPageState extends State<MainPage> {
+  User user;
+  _MainPageState(this.user);
+
   Future<bool> getData() async {
     await Future<dynamic>.delayed(const Duration(milliseconds: 0));
     return true;
@@ -67,7 +77,7 @@ class _MainPageState extends State<MainPage> {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isLightMode = brightness == Brightness.light;
     return Scaffold(
-      drawer: NavigationDrawerWidget(),
+      drawer: NavigationDrawerWidget(this.user),
       backgroundColor: isLightMode == true
           ? Color.fromARGB(255, 158, 112, 162)
           : Color.fromARGB(255, 158, 112, 162),
@@ -92,7 +102,7 @@ class _MainPageState extends State<MainPage> {
                         if (!snapshot.hasData) {
                           return const SizedBox();
                         } else {
-                          return MapView();
+                          return MapView(this.user);
                         }
                       },
                     ),
@@ -182,13 +192,16 @@ class _MainPageState extends State<MainPage> {
 }
 
 class MapView extends StatefulWidget {
+  User user;
+  MapView(this.user);
   @override
-  _MapViewState createState() => _MapViewState();
+  _MapViewState createState() => _MapViewState(this.user);
 }
 
 class _MapViewState extends State<MapView> {
+  User user;
+  _MapViewState(this.user);
   Alert userAlert = Alert();
-  User user = User("1", "0", "0");
   CameraPosition _initialLocation = CameraPosition(target: LatLng(0.0, 0.0));
   late GoogleMapController mapController;
   MapType _currentMapType = MapType.normal;

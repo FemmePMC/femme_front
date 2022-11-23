@@ -11,7 +11,8 @@ import 'package:best_flutter_ui_templates/back/alerts.dart';
 
 class NavigationDrawerWidget extends StatelessWidget {
   final padding = EdgeInsets.symmetric(horizontal: 20);
-  User userService = User("1", "0", "0");
+  User userService;
+  NavigationDrawerWidget(this.userService);
 
   @override
   Widget build(BuildContext context) {
@@ -174,22 +175,22 @@ class NavigationDrawerWidget extends StatelessWidget {
     switch (index) {
       case 0:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => PeoplePage(),
+          builder: (context) => PeoplePage(this.userService),
         ));
         break;
       case 1:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => NotificationPage(),
+          builder: (context) => NotificationPage(this.userService),
         ));
         break;
       case 2:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => MainPage(),
+          builder: (context) => MainPage(this.userService),
         ));
         break;
       case 3:
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => MainPage(),
+          builder: (context) => MainPage(this.userService),
         ));
         break;
       case 4:
