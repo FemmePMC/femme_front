@@ -62,7 +62,7 @@ class NavigationDrawerWidget extends StatelessWidget {
                         buildMenuItem(
                           text: 'Sobre Nosotros',
                           icon: Icons.info,
-                          onClicked: () => selectedItem(context, 3),
+                          onClicked: launchLanding,
                         ),
                       ],
                     ),

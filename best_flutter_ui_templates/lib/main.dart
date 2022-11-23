@@ -214,6 +214,68 @@ class _MapViewState extends State<MapView> {
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  Widget alertPopup(BuildContext context) {
+    return ButtonBarTheme(
+        data: ButtonBarThemeData(alignment: MainAxisAlignment.center),
+        child: AlertDialog(
+          content: Text(
+              "CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_"),
+          actions: <Widget>[
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              //mainAxisAlignment: MainAxisAlignment.center,
+              //crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.20,
+                  child: ElevatedButton(
+                    child: new Text(
+                      'Save',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 158, 112, 162),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.01,
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.20,
+                  child: ElevatedButton(
+                    child: new Text(
+                      'Save',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color.fromARGB(255, 158, 112, 162),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.02,
+                ),
+              ],
+            )
+          ],
+        ));
+  }
+
   Widget _textField({
     required TextEditingController controller,
     required FocusNode focusNode,
