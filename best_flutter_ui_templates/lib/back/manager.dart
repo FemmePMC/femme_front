@@ -7,6 +7,8 @@ class User {
   String id;
   String latitude;
   String longitude;
+  int numberOfAlerts = 0;
+  bool alert = false;
 
   User(this.id, this.latitude, this.longitude) {
     this.id = id;
@@ -93,9 +95,15 @@ class User {
 
   Future<List> getNotifications() async {
     try {
-      final response = await http.get(Uri.parse(base_url + "/user/1/alerts/"));
+      final response =
+          await http.get(Uri.parse(base_url + this.id + "/alerts/"));
       if (response.statusCode == 200) {
-        return json.decode(response.body);
+        var data = json.decode(response.body);
+        this.numberOfAlerts = data.length;
+        if (data.length > numberOfAlerts) {
+          this.alert = true;
+        }
+        return data;
       } else {
         throw Exception('Failed to load get user');
       }

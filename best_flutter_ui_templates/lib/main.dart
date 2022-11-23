@@ -22,7 +22,7 @@ Future main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  User user = User("2", "0", "0");
+  User user = User("1", "0", "0");
 
   runApp(MyApp(user));
 }
@@ -200,6 +200,8 @@ class MapView extends StatefulWidget {
 
 class _MapViewState extends State<MapView> {
   User user;
+  bool repeat = false;
+  int alertsNum = 0;
   _MapViewState(this.user);
   Alert userAlert = Alert();
   CameraPosition _initialLocation = CameraPosition(target: LatLng(0.0, 0.0));
@@ -214,6 +216,7 @@ class _MapViewState extends State<MapView> {
 
   final startAddressFocusNode = FocusNode();
   final desrinationAddressFocusNode = FocusNode();
+  ValueNotifier<int> lenAlertList = ValueNotifier(0);
 
   String _startAddress = '';
   String _destinationAddress = '';
@@ -227,66 +230,35 @@ class _MapViewState extends State<MapView> {
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Widget alertPopup(BuildContext context) {
-    return ButtonBarTheme(
-        data: ButtonBarThemeData(alignment: MainAxisAlignment.center),
-        child: AlertDialog(
-          content: Text(
-              "CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_CONTENT_"),
+  _checkAlerts() async {
+    await user.getNotifications().then((List alerts) async {
+      setState(() {
+        alertsNum = alerts.length;
+        user.numberOfAlerts = alerts.length;
+        repeat = true;
+        user.alert = repeat;
+      });
+    });
+  }
+
+  _showDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Alerta recibida"),
+          content: new Text("Tranquila, la ayuda esta en camino"),
           actions: <Widget>[
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              //mainAxisAlignment: MainAxisAlignment.center,
-              //crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.20,
-                  child: ElevatedButton(
-                    child: new Text(
-                      'Save',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 158, 112, 162),
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.01,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.20,
-                  child: ElevatedButton(
-                    child: new Text(
-                      'Save',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(255, 158, 112, 162),
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.02,
-                ),
-              ],
-            )
+            new TextButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
           ],
-        ));
+        );
+      },
+    );
   }
 
   Widget _textField({
@@ -591,6 +563,10 @@ class _MapViewState extends State<MapView> {
   void initState() {
     super.initState();
     _getCurrentLocation();
+    _checkAlerts();
+    if (repeat) {
+      _showDialog();
+    }
   }
 
   @override
@@ -749,6 +725,7 @@ class _MapViewState extends State<MapView> {
                         ),
                         onTap: () {
                           userAlert.createAlert();
+                          _showDialog();
                         },
                       ),
                     ),
