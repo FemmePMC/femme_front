@@ -176,10 +176,10 @@ class NavigationDrawerWidget extends StatelessWidget {
 
   launchLanding() async {
     Uri url = Uri.parse('https://cristian26aso.wixsite.com/femme');
-    if (await canLaunchUrl(url)) {
+    try {
       await launchUrl(url);
-    } else {
-      throw 'Could not launch';
+    } catch (e) {
+      print(e);
     }
   }
 }
