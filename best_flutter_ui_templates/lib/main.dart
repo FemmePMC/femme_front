@@ -22,7 +22,7 @@ Future main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  User user = User("3", "0", "0");
+  User user = User("2", "0", "0");
 
   runApp(MyApp(user));
 }
@@ -203,8 +203,8 @@ class MapView extends StatefulWidget {
 class _MapViewState extends State<MapView> {
   double lat;
   double long;
-  _MapViewState(this.user, this.lat, this.long);
   User user;
+  _MapViewState(this.user, this.lat, this.long);
   bool repeat = false;
   int alertsNum = 0;
   Alert userAlert = Alert();
